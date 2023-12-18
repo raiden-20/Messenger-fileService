@@ -9,6 +9,9 @@ import ru.vsu.cs.sheina.fileservice.configuration.minio.MinioBucket;
 import ru.vsu.cs.sheina.fileservice.dto.FileDTO;
 import ru.vsu.cs.sheina.fileservice.util.Parser;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 @Service
 @RequiredArgsConstructor
 public class MinioService {
@@ -26,10 +29,11 @@ public class MinioService {
 
     public void saveFile(FileDTO fileDTO) {
         try {
+            InputStream inputStream = new ByteArrayInputStream(fileDTO.getFile().getBytes());
             minioClient.putObject(PutObjectArgs.builder()
                     .bucket(MinioBucket.PICTURE.toString())
-                    .object(fileDTO.getFile().getOriginalFilename())
-                    .stream(fileDTO.getFile().getInputStream(), fileDTO.getFile().getSize(), 5 * 1024 * 1024)
+                    .object(fileDTO.getOriginalName())
+                    .stream(inputStream, fileDTO.getFile().length(), 5 * 1024 * 1024)
                     .build());
         } catch (Exception e) {
             System.out.println(e.getMessage());

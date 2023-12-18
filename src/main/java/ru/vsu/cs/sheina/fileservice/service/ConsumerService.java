@@ -14,7 +14,7 @@ public class ConsumerService {
 
     @RabbitListener(queues = RabbitQueues.toFileQueue)
     public void actionWithFile(FileDTO fileDTO){
-        if (fileDTO.getFile() == null) {
+        if (fileDTO.getFile().isEmpty()) {
             minioService.deleteFile(fileDTO);
         } else {
             minioService.saveFile(fileDTO);
