@@ -1,4 +1,4 @@
-package ru.vsu.cs.sheina.fileservice.configuration;
+package ru.vsu.cs.sheina.fileservice.configuration.minio;
 
 public enum MinioBucket {
     PICTURE("picture");
