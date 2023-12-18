@@ -1,0 +1,4 @@
+minio:
+  host: http://127.0.0.1:9000
+  user: muser
+  password: mpassword
