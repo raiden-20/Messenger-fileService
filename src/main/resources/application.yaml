@@ -1,6 +1,15 @@
 server:
   port: 8004
+jwt:
+  secret: 29qmvb8qbzj7sjhrrtmi5xp3oz98kzk529qmvb8qbzj7sj
 minio:
-  host: http://127.0.0.1:9000
+  host: http:/localhost:9000
   user: muser
   password: mpassword
+  bucket: picture
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rmuser
+    password: rmpassword

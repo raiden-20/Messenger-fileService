@@ -13,7 +13,7 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Queue fileServiceQueue() {
-        return new Queue(RabbitQueues.toFileQueue);
+    public Queue socialServiceQueue() {
+        return new Queue(RabbitQueues.toSocialQueue);
     }
 }
