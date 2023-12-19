@@ -1,15 +1,18 @@
 package ru.vsu.cs.sheina.fileservice.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestPart;
 import ru.vsu.cs.sheina.fileservice.service.enums.FileSource;
 
+import java.util.UUID;
+
 @Data
-public class FileDTO {
+@AllArgsConstructor
+public class UrlDTO {
+
+    String sourseId;
 
     String url;
 
     FileSource source;
-
-    Integer postId;
 }
