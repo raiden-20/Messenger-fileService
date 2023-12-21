@@ -45,8 +45,10 @@ public class MainService {
             throw new FileTooBigException();
         }
 
-        String oldFileName = Parser.getFileName(fileDTO.getUrl());
-        minioService.deleteFile(oldFileName);
+        if (!fileDTO.getUrl().isEmpty()) {
+            String oldFileName = Parser.getFileName(fileDTO.getUrl());
+            minioService.deleteFile(oldFileName);
+        }
 
         minioService.saveFile(file);
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
