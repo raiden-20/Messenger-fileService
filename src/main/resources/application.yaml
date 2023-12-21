@@ -1,15 +1,14 @@
 server:
-  port: 8004
+  port: 8080
 jwt:
-  secret: 29qmvb8qbzj7sjhrrtmi5xp3oz98kzk529qmvb8qbzj7sj
+  secret: ${JWT_SECRET}
 minio:
-  host: http:/localhost:9000
-  user: muser
-  password: mpassword
-  bucket: picture
+  host: ${MINIO_HOST}
+  user: ${MINIO_ROOT_USER}
+  password: ${MINIO_ROOT_PASSWORD}
 spring:
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: rmuser
-    password: rmpassword
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}

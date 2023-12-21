@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.vsu.cs.sheina.fileservice.configuration.minio.MinioBucket;
 import ru.vsu.cs.sheina.fileservice.dto.FileDTO;
 import ru.vsu.cs.sheina.fileservice.dto.UrlDTO;
 import ru.vsu.cs.sheina.fileservice.exceptions.FileTooBigException;
@@ -25,8 +26,6 @@ public class MainService {
 
     @Value("${minio.host}")
     private String storageHost;
-    @Value("${minio.bucket}")
-    private String bucket;
 
     public void deleteFile(MultipartFile file, FileDTO fileDTO, String token) {
         UUID currentId = jwtTokenUtil.retrieveIdClaim(token);
@@ -50,7 +49,7 @@ public class MainService {
         minioService.deleteFile(oldFileName);
 
         minioService.saveFile(file);
-        String newUrl = storageHost + "/" + bucket + "/" + file.getOriginalFilename();
+        String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
 
         switch (fileDTO.getSource()) {
             case AVATAR -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.AVATAR));
