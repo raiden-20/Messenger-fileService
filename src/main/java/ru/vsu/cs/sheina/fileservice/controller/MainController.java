@@ -9,27 +9,25 @@ import ru.vsu.cs.sheina.fileservice.dto.FileDTO;
 import ru.vsu.cs.sheina.fileservice.service.MainService;
 
 @Controller
-@RequestMapping("/file")
+@RequestMapping()
 @RequiredArgsConstructor
 public class MainController {
 
     private final MainService mainService;
 
-    @DeleteMapping()
+    @DeleteMapping(value = "/file", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> deleteFile(@RequestPart("file") MultipartFile file,
-                                        @RequestPart("fileDTO") FileDTO fileDTO,
-                                        @RequestHeader("Authorization") String token) {
-        mainService.deleteFile(file, fileDTO, token);
+                                        @RequestPart("fileDTO") FileDTO fileDTO) {
+        mainService.deleteFile(file, fileDTO);
         return ResponseEntity.ok("Removal successful");
     }
 
-    @PostMapping()
+    @PostMapping(value = "/file", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
-                                      @RequestPart("fileDTO") FileDTO fileDTO,
-                                      @RequestHeader("Authorization") String token) {
-        mainService.saveFile(file, fileDTO, token);
+                                      @RequestPart("fileDTO") FileDTO fileDTO) {
+        mainService.saveFile(file, fileDTO);
         return ResponseEntity.ok("Save successfully");
     }
 }

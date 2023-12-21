@@ -16,7 +16,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> handleJwtException(JWTVerificationException jwtVerificationException) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad token");
+    public ResponseEntity<?> handleFileNameException(ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad file name");
     }
 }
