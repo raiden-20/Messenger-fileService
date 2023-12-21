@@ -52,7 +52,6 @@ public class MainService {
 
         minioService.saveFile(file);
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
-        System.out.println(newUrl);
         switch (fileDTO.getSource()) {
             case AVATAR -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.AVATAR));
             case COVER -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.COVER));

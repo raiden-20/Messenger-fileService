@@ -4,6 +4,6 @@ public class Parser {
 
     public static String getFileName(String url) {
         String[] args = url.split("/");
-        return args[3];
+        return args[4];
     }
 }
