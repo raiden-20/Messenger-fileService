@@ -9,7 +9,10 @@ import ru.vsu.cs.sheina.fileservice.dto.FileDTO;
 import ru.vsu.cs.sheina.fileservice.dto.UrlDTO;
 import ru.vsu.cs.sheina.fileservice.exceptions.FileTooBigException;
 import ru.vsu.cs.sheina.fileservice.service.enums.FileSource;
+import ru.vsu.cs.sheina.fileservice.util.JwtTokenUtil;
 import ru.vsu.cs.sheina.fileservice.util.Parser;
+
+import java.util.UUID;
 
 
 @Service
@@ -18,12 +21,14 @@ public class MainService {
 
     private final MinioService minioService;
     private final RabbitService rabbitService;
+    private final JwtTokenUtil jwtTokenUtil;
     private final Integer FILE_MAX_SIZE = 2 * 1024 * 1024;
 
     @Value("${minio.host}")
     private String storageHost;
 
-    public void deleteFile(MultipartFile file, FileDTO fileDTO) {
+    public void deleteFile(MultipartFile file, FileDTO fileDTO, String token) {
+        UUID currentId = jwtTokenUtil.retrieveIdClaim(token);
         String fileName = Parser.getFileName(fileDTO.getUrl());
         minioService.deleteFile(fileName);
 
@@ -34,7 +39,8 @@ public class MainService {
         }
     }
 
-    public void saveFile(MultipartFile file, FileDTO fileDTO) {
+    public void saveFile(MultipartFile file, FileDTO fileDTO,String token) {
+        UUID currentId = jwtTokenUtil.retrieveIdClaim(token);
         if (file.isEmpty() && file.getSize() > FILE_MAX_SIZE) {
             throw new FileTooBigException();
         }
@@ -46,7 +52,7 @@ public class MainService {
 
         minioService.saveFile(file);
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
-
+        System.out.println(newUrl);
         switch (fileDTO.getSource()) {
             case AVATAR -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.AVATAR));
             case COVER -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.COVER));

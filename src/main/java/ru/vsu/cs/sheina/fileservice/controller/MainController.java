@@ -18,16 +18,18 @@ public class MainController {
     @DeleteMapping(value = "/file", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> deleteFile(@RequestPart("file") MultipartFile file,
-                                        @RequestPart("fileDTO") FileDTO fileDTO) {
-        mainService.deleteFile(file, fileDTO);
+                                        @RequestPart("fileDTO") FileDTO fileDTO,
+                                        @RequestHeader("Authorization") String token) {
+        mainService.deleteFile(file, fileDTO, token);
         return ResponseEntity.ok("Removal successful");
     }
 
     @PostMapping(value = "/file", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
-                                      @RequestPart("fileDTO") FileDTO fileDTO) {
-        mainService.saveFile(file, fileDTO);
+                                      @RequestPart("fileDTO") FileDTO fileDTO,
+                                      @RequestHeader("Authorization") String token) {
+        mainService.saveFile(file, fileDTO, token);
         return ResponseEntity.ok("Save successfully");
     }
 }
