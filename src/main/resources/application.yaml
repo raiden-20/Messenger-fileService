@@ -12,3 +12,5 @@ spring:
     port: ${RABBITMQ_PORT}
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
+public:
+  host: ${MINIO_PUBLIC_HOST}

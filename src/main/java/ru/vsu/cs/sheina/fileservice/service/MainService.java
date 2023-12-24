@@ -24,7 +24,7 @@ public class MainService {
     private final JwtTokenUtil jwtTokenUtil;
     private final Integer FILE_MAX_SIZE = 2 * 1024 * 1024;
 
-    @Value("${minio.host}")
+    @Value("${public.host}")
     private String storageHost;
 
     public void deleteFile(MultipartFile file, FileDTO fileDTO, String token) {
