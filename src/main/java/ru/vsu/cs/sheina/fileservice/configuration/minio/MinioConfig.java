@@ -40,7 +40,7 @@ public class MinioConfig {
                     .build());
         }
 
-        String policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetObject\"],\"Resource\":[\"arn:aws:s3:::" + MinioBucket.PICTURE.toString() + "/*\"],\"Condition\":{\"StringEquals\":{\"s3:authType\":[\"Basic\"]}}}]}\n";
+        String policy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"s3:GetObject\",\"Resource\":\"arn:aws:s3:::" + MinioBucket.PICTURE.toString() + "/*\"}]}";
 
         minioClient.setBucketPolicy(SetBucketPolicyArgs.builder()
                 .bucket(MinioBucket.PICTURE.toString())
