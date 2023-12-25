@@ -8,7 +8,7 @@ import ru.vsu.cs.sheina.fileservice.service.enums.FileSource;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class UrlDTO {
+public class SocialUrlDTO {
 
     String sourceId;
 

@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vsu.cs.sheina.fileservice.configuration.minio.MinioBucket;
+import ru.vsu.cs.sheina.fileservice.dto.BlogUrlDTO;
 import ru.vsu.cs.sheina.fileservice.dto.FileDTO;
-import ru.vsu.cs.sheina.fileservice.dto.UrlDTO;
+import ru.vsu.cs.sheina.fileservice.dto.SocialUrlDTO;
 import ru.vsu.cs.sheina.fileservice.exceptions.FileTooBigException;
 import ru.vsu.cs.sheina.fileservice.service.enums.FileSource;
 import ru.vsu.cs.sheina.fileservice.util.JwtTokenUtil;
@@ -33,9 +34,9 @@ public class MainService {
         minioService.deleteFile(fileName);
 
         switch (fileDTO.getSource()) {
-            case AVATAR-> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), "", FileSource.AVATAR));
-            case COVER -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), "", FileSource.COVER));
-            case POST -> rabbitService.sendMessageToPost(new UrlDTO(fileDTO.getPostId().toString(), "", FileSource.POST));
+            case AVATAR-> rabbitService.sendMessageToSocial(new SocialUrlDTO(currentId.toString(), "",  FileSource.AVATAR ));
+            case COVER -> rabbitService.sendMessageToSocial(new SocialUrlDTO(currentId.toString(), "",  FileSource.COVER));
+            case POST -> rabbitService.sendMessageToPost(new BlogUrlDTO(fileDTO.getPostId().toString(), fileDTO.getUrl(), fileDTO.getPhotoId()));
         }
     }
 
@@ -53,9 +54,9 @@ public class MainService {
         minioService.saveFile(file);
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
         switch (fileDTO.getSource()) {
-            case AVATAR -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.AVATAR));
-            case COVER -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.COVER));
-            case POST -> rabbitService.sendMessageToPost(new UrlDTO(fileDTO.getPostId().toString(), newUrl, FileSource.POST));
+            case AVATAR -> rabbitService.sendMessageToSocial(new SocialUrlDTO(currentId.toString(), newUrl, FileSource.AVATAR));
+            case COVER -> rabbitService.sendMessageToSocial(new SocialUrlDTO(currentId.toString(), newUrl, FileSource.COVER));
+            case POST -> rabbitService.sendMessageToPost(new BlogUrlDTO(fileDTO.getPostId().toString(), newUrl, 0));
         }
     }
 }

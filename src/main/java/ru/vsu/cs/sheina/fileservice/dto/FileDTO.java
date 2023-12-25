@@ -12,4 +12,6 @@ public class FileDTO {
     FileSource source;
 
     Integer postId;
+
+    Integer photoId;
 }
