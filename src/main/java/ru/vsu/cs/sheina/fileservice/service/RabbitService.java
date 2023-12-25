@@ -17,6 +17,6 @@ public class RabbitService {
     }
 
    public void sendMessageToPost(UrlDTO urlDTO) {
-//        TODO
+       rabbitTemplate.convertSendAndReceive(RabbitQueues.toBlogQueue, urlDTO);
    }
 }

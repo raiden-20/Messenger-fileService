@@ -35,7 +35,7 @@ public class MainService {
         switch (fileDTO.getSource()) {
             case AVATAR-> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), "", FileSource.AVATAR));
             case COVER -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), "", FileSource.COVER));
-            //TODO case POST -> rabbitService.sendMessageToPost(new UrlDTO(fileDTO.getPostId().toString(), "", FileSource.POST));
+            case POST -> rabbitService.sendMessageToPost(new UrlDTO(fileDTO.getPostId().toString(), "", FileSource.POST));
         }
     }
 
@@ -55,7 +55,7 @@ public class MainService {
         switch (fileDTO.getSource()) {
             case AVATAR -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.AVATAR));
             case COVER -> rabbitService.sendMessageToSocial(new UrlDTO(currentId.toString(), newUrl, FileSource.COVER));
-            //TODO case POST -> rabbitService.sendMessageToPost(new UrlDTO(fileDTO.getPostId().toString(), newUrl, FileSource.POST));
+            case POST -> rabbitService.sendMessageToPost(new UrlDTO(fileDTO.getPostId().toString(), newUrl, FileSource.POST));
         }
     }
 }
