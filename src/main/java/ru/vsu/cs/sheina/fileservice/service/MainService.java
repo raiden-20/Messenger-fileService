@@ -8,7 +8,6 @@ import ru.vsu.cs.sheina.fileservice.configuration.minio.MinioBucket;
 import ru.vsu.cs.sheina.fileservice.dto.BlogUrlDTO;
 import ru.vsu.cs.sheina.fileservice.dto.FileSocialDTO;
 import ru.vsu.cs.sheina.fileservice.dto.SocialUrlDTO;
-import ru.vsu.cs.sheina.fileservice.dto.field.PostIdDTO;
 import ru.vsu.cs.sheina.fileservice.exceptions.FileTooBigException;
 import ru.vsu.cs.sheina.fileservice.dto.enums.FileSource;
 import ru.vsu.cs.sheina.fileservice.util.JwtTokenUtil;
