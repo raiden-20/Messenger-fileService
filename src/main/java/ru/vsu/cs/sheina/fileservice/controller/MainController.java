@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vsu.cs.sheina.fileservice.dto.BlogUrlDTO;
 import ru.vsu.cs.sheina.fileservice.dto.FileSocialDTO;
-import ru.vsu.cs.sheina.fileservice.dto.field.PostIdDTO;
 import ru.vsu.cs.sheina.fileservice.service.MainService;
 
 @Controller
@@ -20,17 +19,18 @@ public class MainController {
     @PostMapping(value = "/file/social", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> postSocial(@RequestPart("file") MultipartFile file,
-                                        @RequestPart("data") FileSocialDTO socialDTO,
+                                        @RequestPart("url") String url,
+                                        @RequestPart("source") String source,
                                         @RequestHeader("Authorization") String token) {
-        mainService.postSocialFile(file, socialDTO, token);
+        mainService.postSocialFile(file, url, source, token);
         return ResponseEntity.ok("Save successfully");
     }
 
     @PostMapping(value = "/file/blog", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
-                                      @RequestPart("data") PostIdDTO postIdDTO) {
-        mainService.postBlogFile(file, postIdDTO);
+                                      @RequestPart("postId") Integer postId) {
+        mainService.postBlogFile(file, postId);
         return ResponseEntity.ok("Save successfully");
     }
 

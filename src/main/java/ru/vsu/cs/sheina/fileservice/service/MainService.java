@@ -30,27 +30,29 @@ public class MainService {
     @Value("${public.host}")
     private String storageHost;
 
-    public void postSocialFile(MultipartFile file, FileSocialDTO socialDTO, String token) {
+    public void postSocialFile(MultipartFile file, String url, String source, String token) {
         UUID currentId = jwtTokenUtil.retrieveIdClaim(token);
 
         if (!file.isEmpty() && file.getSize() > FILE_MAX_SIZE) {
             throw new FileTooBigException();
         }
 
-        if (!socialDTO.getUrl().isEmpty()) {
-            String oldFileName = Parser.getFileName(socialDTO.getUrl());
+        if (!url.equals("undefined")) {
+            String oldFileName = Parser.getFileName(url);
+
             minioService.deleteFile(oldFileName);
         }
 
         minioService.saveFile(file);
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
-        switch (socialDTO.getSource()) {
+
+        switch (FileSource.valueOf(source)) {
             case AVATAR -> socialSender.sendMessageToSocial(new SocialUrlDTO(currentId, newUrl, FileSource.AVATAR));
             case COVER -> socialSender.sendMessageToSocial(new SocialUrlDTO(currentId, newUrl, FileSource.COVER));
         }
     }
 
-    public void postBlogFile(MultipartFile file, PostIdDTO postIdDTO) {
+    public void postBlogFile(MultipartFile file, Integer postId) {
         if (!file.isEmpty() && file.getSize() > FILE_MAX_SIZE) {
             throw new FileTooBigException();
         }
@@ -58,7 +60,7 @@ public class MainService {
         minioService.saveFile(file);
 
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
-        blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, postIdDTO.getPostId()));
+        blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, postId));
     }
 
     public void deleteSocialFile(FileSocialDTO socialDTO, String token) {
@@ -68,7 +70,6 @@ public class MainService {
             String oldFileName = Parser.getFileName(socialDTO.getUrl());
             minioService.deleteFile(oldFileName);
         }
-
         switch (socialDTO.getSource()) {
             case AVATAR -> socialSender.sendMessageToSocial(new SocialUrlDTO(currentId, "", FileSource.AVATAR));
             case COVER -> socialSender.sendMessageToSocial(new SocialUrlDTO(currentId, "", FileSource.COVER));
