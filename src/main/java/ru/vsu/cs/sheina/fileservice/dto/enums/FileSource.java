@@ -1,9 +1,8 @@
-package ru.vsu.cs.sheina.fileservice.service.enums;
+package ru.vsu.cs.sheina.fileservice.dto.enums;
 
 public enum FileSource {
     AVATAR("AVATAR"),
-    COVER("COVER"),
-    POST("POST");
+    COVER("COVER");
 
     private String name;
 

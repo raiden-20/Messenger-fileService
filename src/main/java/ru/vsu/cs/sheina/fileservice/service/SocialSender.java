@@ -9,7 +9,7 @@ import ru.vsu.cs.sheina.fileservice.dto.SocialUrlDTO;
 
 @Service
 @RequiredArgsConstructor
-public class RabbitService {
+public class SocialSender {
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -17,7 +17,5 @@ public class RabbitService {
         rabbitTemplate.convertSendAndReceive(RabbitQueues.toSocialQueue, socialUrlDTO);
     }
 
-   public void sendMessageToPost(BlogUrlDTO blogUrlDTO) {
-       rabbitTemplate.convertSendAndReceive(RabbitQueues.toBlogQueue, blogUrlDTO);
-   }
+
 }

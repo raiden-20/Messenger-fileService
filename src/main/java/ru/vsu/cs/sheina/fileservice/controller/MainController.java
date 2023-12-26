@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.vsu.cs.sheina.fileservice.dto.FileDTO;
+import ru.vsu.cs.sheina.fileservice.dto.BlogUrlDTO;
+import ru.vsu.cs.sheina.fileservice.dto.FileSocialDTO;
+import ru.vsu.cs.sheina.fileservice.dto.field.PostIdDTO;
 import ru.vsu.cs.sheina.fileservice.service.MainService;
 
 @Controller
@@ -15,21 +17,36 @@ public class MainController {
 
     private final MainService mainService;
 
-    @DeleteMapping(value = "/file", consumes = "multipart/form-data")
+    @PostMapping(value = "/file/social", consumes = "multipart/form-data")
     @CrossOrigin
-    public ResponseEntity<?> deleteFile(@RequestPart("file") MultipartFile file,
-                                        @RequestPart("fileDTO") FileDTO fileDTO,
+    public ResponseEntity<?> postSocial(@RequestPart("file") MultipartFile file,
+                                        @RequestPart("data") FileSocialDTO socialDTO,
                                         @RequestHeader("Authorization") String token) {
-        mainService.deleteFile(file, fileDTO, token);
+        mainService.postSocialFile(file, socialDTO, token);
+        return ResponseEntity.ok("Save successfully");
+    }
+
+    @PostMapping(value = "/file/blog", consumes = "multipart/form-data")
+    @CrossOrigin
+    public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
+                                      @RequestPart("data") PostIdDTO postIdDTO) {
+        mainService.postBlogFile(file, postIdDTO);
+        return ResponseEntity.ok("Save successfully");
+    }
+
+    @DeleteMapping("/file/social")
+    @CrossOrigin
+    public ResponseEntity<?> deleteSocial(@RequestBody FileSocialDTO socialDTO,
+                                          @RequestHeader("Authorization") String token) {
+        mainService.deleteSocialFile(socialDTO, token);
         return ResponseEntity.ok("Removal successful");
     }
 
-    @PostMapping(value = "/file", consumes = "multipart/form-data")
+    @DeleteMapping( "/file/blog")
     @CrossOrigin
-    public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
-                                      @RequestPart("fileDTO") FileDTO fileDTO,
-                                      @RequestHeader("Authorization") String token) {
-        mainService.saveFile(file, fileDTO, token);
-        return ResponseEntity.ok("Save successfully");
+    public ResponseEntity<?> deleteBlog(@RequestBody BlogUrlDTO blogDTO,
+                                        @RequestHeader("Authorization") String token) {
+        mainService.deleteBlogFile(blogDTO, token);
+        return ResponseEntity.ok("Removal successful");
     }
 }
