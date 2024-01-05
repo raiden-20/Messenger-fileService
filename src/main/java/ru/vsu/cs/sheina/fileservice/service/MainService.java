@@ -63,7 +63,7 @@ public class MainService {
         minioService.saveFile(file);
 
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
-        blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, Integer.getInteger(postId)));
+        blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, Integer.valueOf(postId)));
     }
 
     public void deleteSocialFile(FileSocialDTO socialDTO, String token) {
