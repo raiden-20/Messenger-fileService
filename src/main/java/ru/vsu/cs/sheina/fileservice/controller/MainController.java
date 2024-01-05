@@ -22,15 +22,15 @@ public class MainController {
                                         @RequestPart("url") String url,
                                         @RequestPart("source") String source,
                                         @RequestHeader("Authorization") String token) {
-        mainService.postSocialFile(file, url, source, token);
+        //mainService.postSocialFile(file, url, source, token);
         return ResponseEntity.ok("Save successfully");
     }
 
     @PostMapping(value = "/file/blog", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
-                                      @RequestPart("postId") Integer postId) {
-        mainService.postBlogFile(file, postId);
+                                      @RequestPart("postId") String postId) {
+        mainService.postBlogFile(file, Integer.getInteger(postId));
         return ResponseEntity.ok("Save successfully");
     }
 
