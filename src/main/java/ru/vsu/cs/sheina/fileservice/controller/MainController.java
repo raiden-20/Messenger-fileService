@@ -22,7 +22,7 @@ public class MainController {
                                         @RequestPart("url") String url,
                                         @RequestPart("source") String source,
                                         @RequestHeader("Authorization") String token) {
-        //mainService.postSocialFile(file, url, source, token);
+        mainService.postSocialFile(file, url, source, token);
         return ResponseEntity.ok("Save successfully");
     }
 
