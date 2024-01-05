@@ -10,6 +10,7 @@ import ru.vsu.cs.sheina.fileservice.dto.FileSocialDTO;
 import ru.vsu.cs.sheina.fileservice.dto.SocialUrlDTO;
 import ru.vsu.cs.sheina.fileservice.exceptions.FileTooBigException;
 import ru.vsu.cs.sheina.fileservice.dto.enums.FileSource;
+import ru.vsu.cs.sheina.fileservice.exceptions.PostIdIsNullException;
 import ru.vsu.cs.sheina.fileservice.util.JwtTokenUtil;
 import ru.vsu.cs.sheina.fileservice.util.Parser;
 
@@ -51,7 +52,10 @@ public class MainService {
         }
     }
 
-    public void postBlogFile(MultipartFile file, Integer postId) {
+    public void postBlogFile(MultipartFile file, String postId) {
+        if (postId == null || postId.isEmpty()) {
+            throw new PostIdIsNullException();
+        }
         if (!file.isEmpty() && file.getSize() > FILE_MAX_SIZE) {
             throw new FileTooBigException();
         }
@@ -59,7 +63,7 @@ public class MainService {
         minioService.saveFile(file);
 
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
-        blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, postId));
+        blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, Integer.getInteger(postId)));
     }
 
     public void deleteSocialFile(FileSocialDTO socialDTO, String token) {

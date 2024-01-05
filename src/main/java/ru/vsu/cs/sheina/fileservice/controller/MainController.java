@@ -30,7 +30,7 @@ public class MainController {
     @CrossOrigin
     public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
                                       @RequestPart("postId") String postId) {
-        mainService.postBlogFile(file, Integer.getInteger(postId));
+        mainService.postBlogFile(file, postId);
         return ResponseEntity.ok("Save successfully");
     }
 
