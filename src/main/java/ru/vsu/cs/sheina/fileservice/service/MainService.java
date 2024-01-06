@@ -30,7 +30,7 @@ public class MainService {
     @Value("${public.host}")
     private String storageHost;
 
-    public void postSocialFile(MultipartFile file, String url, String source, String token) {
+    public String postSocialFile(MultipartFile file, String url, String source, String token) {
         UUID currentId = jwtTokenUtil.retrieveIdClaim(token);
 
         if (!file.isEmpty() && file.getSize() > FILE_MAX_SIZE) {
@@ -50,9 +50,11 @@ public class MainService {
             case AVATAR -> socialSender.sendMessageToSocial(new SocialUrlDTO(currentId, newUrl, FileSource.AVATAR));
             case COVER -> socialSender.sendMessageToSocial(new SocialUrlDTO(currentId, newUrl, FileSource.COVER));
         }
+
+        return newUrl;
     }
 
-    public void postBlogFile(MultipartFile file, String postId) {
+    public String postBlogFile(MultipartFile file, String postId) {
         if (postId == null || postId.isEmpty()) {
             throw new PostIdIsNullException();
         }
@@ -64,6 +66,8 @@ public class MainService {
 
         String newUrl = storageHost + "/" + MinioBucket.PICTURE.toString() + "/" + file.getOriginalFilename();
         blogSender.sendMessageToPost(new BlogUrlDTO(newUrl, 0, Integer.valueOf(postId)));
+
+        return newUrl;
     }
 
     public void deleteSocialFile(FileSocialDTO socialDTO, String token) {

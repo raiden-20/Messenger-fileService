@@ -12,7 +12,7 @@ import ru.vsu.cs.sheina.fileservice.service.MainService;
 @Controller
 @RequestMapping()
 @RequiredArgsConstructor
-public class MainController {
+public class FileController {
 
     private final MainService mainService;
 
@@ -22,16 +22,16 @@ public class MainController {
                                         @RequestPart("url") String url,
                                         @RequestPart("source") String source,
                                         @RequestHeader("Authorization") String token) {
-        mainService.postSocialFile(file, url, source, token);
-        return ResponseEntity.ok("Save successfully");
+        String newUrl = mainService.postSocialFile(file, url, source, token);
+        return ResponseEntity.ok(newUrl);
     }
 
     @PostMapping(value = "/file/blog", consumes = "multipart/form-data")
     @CrossOrigin
     public ResponseEntity<?> postFile(@RequestPart("file") MultipartFile file,
                                       @RequestPart("postId") String postId) {
-        mainService.postBlogFile(file, postId);
-        return ResponseEntity.ok("Save successfully");
+        String newUrl = mainService.postBlogFile(file, postId);
+        return ResponseEntity.ok(newUrl);
     }
 
     @DeleteMapping("/file/social")
